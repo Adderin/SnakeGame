@@ -24,6 +24,8 @@ public class GameField extends JPanel implements ActionListener {
     private boolean up = false;
     private boolean down = false;
     private boolean inGame = true;
+    JButton buttonYes = new JButton("Yes");
+    JButton buttonNo = new JButton("No");
 
     public GameField() {
         setBackground(Color.BLACK);
@@ -39,14 +41,14 @@ public class GameField extends JPanel implements ActionListener {
             x[i] = 48 - i * DOT_SIZE;
             y[i] = 48;
         }
-        timer = new Timer(250,this);
+        timer = new Timer(250, this);
         timer.start();
         createApple();
     }
 
     private void createApple() {
-        appleX = new Random().nextInt(20) * DOT_SIZE;
-        appleY = new Random().nextInt(20) * DOT_SIZE;
+        appleX = new Random().nextInt(18) * DOT_SIZE;
+        appleY = new Random().nextInt(18) * DOT_SIZE;
     }
 
     private void loadImages() {
@@ -65,11 +67,12 @@ public class GameField extends JPanel implements ActionListener {
                 g.drawImage(dot, x[i], y[i], this);
             }
         } else {
-            String str = "Game Over!";
-            Font f = new Font("Arial",Font.BOLD,16);
+            String str = "Game Over! Start again?";
+            Font f = new Font("Arial", Font.BOLD, 16);
             g.setColor(Color.WHITE);
             g.setFont(f);
-            g.drawString(str, 120, SIZE/2 + 10);
+            g.drawString(str, 60, SIZE / 2 - 20);
+
         }
     }
 
@@ -85,36 +88,40 @@ public class GameField extends JPanel implements ActionListener {
             x[0] += DOT_SIZE;
         }
         if (up) {
-            x[0] -= DOT_SIZE;
+            y[0] -= DOT_SIZE;
         }
         if (down) {
             y[0] += DOT_SIZE;
         }
     }
 
-    public void checkApple(){
-        if(x[0] == appleX && y[0] == appleY){
+    public void checkApple() {
+        if (x[0] == appleX && y[0] == appleY) {
             dots++;
             createApple();
         }
     }
+    public class TestActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+        }
+    }
 
-    public void checkCollisions(){
-        for(int i=dots; i>0; i--){
-            if(i > 4 && x[0] == x[i] && y[0] == y[i]){
+    public void checkCollisions() {
+        for (int i = dots; i > 0; i--) {
+            if (i > 4 && x[0] == x[i] && y[0] == y[i]) {
                 inGame = false;
             }
         }
-        if(x[0] > SIZE) {
+        if (x[0] > SIZE) {
             inGame = false;
         }
-        if(x[0] < 0) {
+        if (x[0] < 0) {
             inGame = false;
         }
-        if(y[0] > SIZE) {
+        if (y[0] > SIZE) {
             inGame = false;
         }
-        if(y[0] < 0) {
+        if (y[0] < 0) {
             inGame = false;
         }
     }
@@ -129,28 +136,28 @@ public class GameField extends JPanel implements ActionListener {
         repaint();
     }
 
-    class FieldKeyListener extends KeyAdapter{
+    class FieldKeyListener extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
             super.keyPressed(e);
             int key = e.getKeyCode();
-            if(key == KeyEvent.VK_LEFT && !right){
+            if (key == KeyEvent.VK_LEFT && !right) {
                 left = true;
                 up = false;
                 down = false;
             }
-            if(key == KeyEvent.VK_RIGHT && !left){
+            if (key == KeyEvent.VK_RIGHT && !left) {
                 right = true;
                 up = false;
                 down = false;
             }
-            if(key == KeyEvent.VK_UP && !down){
+            if (key == KeyEvent.VK_UP && !down) {
                 right = false;
                 up = true;
                 left = false;
 
             }
-            if(key == KeyEvent.VK_DOWN && !up){
+            if (key == KeyEvent.VK_DOWN && !up) {
                 right = false;
                 down = true;
                 left = false;
