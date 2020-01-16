@@ -1,3 +1,4 @@
 #ignoring some directories
 .idea/**/*
 out/**/*
+src/META-INF/*
